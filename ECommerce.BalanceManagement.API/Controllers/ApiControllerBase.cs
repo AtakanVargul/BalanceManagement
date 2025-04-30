@@ -7,7 +7,7 @@ namespace ECommerce.BalanceManagement.API.Controllers;
 [ApiController]
 public abstract class ApiControllerBase : ControllerBase
 {
-    protected string UserToken => HttpContext?.Request?.Headers["Authorization"].ToString() ?? string.Empty;
+    protected string _userToken => HttpContext?.Request?.Headers["Authorization"].ToString() ?? string.Empty;
 
     protected ISender Mediator =>
         HttpContext.RequestServices.GetRequiredService<ISender>();
