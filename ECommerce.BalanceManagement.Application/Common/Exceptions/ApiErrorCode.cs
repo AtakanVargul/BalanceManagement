@@ -17,5 +17,6 @@ public class ApiErrorCode
     public const string AuthorizationSignatureMismatch = "108";
     public const string AuthorizationTimestampExpired = "109";
     public const string AuditableMissingInfo = "110";
-    public const string LockedOut = "111";
+    public const string InsufficientBalanceLimit = "111";
+    public const string InsufficientStock = "112";
 }

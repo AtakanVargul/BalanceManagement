@@ -1,7 +1,7 @@
 ﻿
 namespace ECommerce.BalanceManagement.Domain.Enums;
 
-public enum PreOrderStatus
+public enum OrderStatus
 {
     Blocked,
     Completed,

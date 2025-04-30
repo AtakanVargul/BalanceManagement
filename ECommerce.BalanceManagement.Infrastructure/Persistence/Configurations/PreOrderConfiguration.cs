@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Configurations;
 
-public class PreOrderConfiguration : IEntityTypeConfiguration<PreOrder>
+public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
-    public void Configure(EntityTypeBuilder<PreOrder> builder)
+    public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.Property(u => u.AvailableBalance).IsRequired().HasPrecision(18, 2);
-        builder.Property(u => u.BlockedBalance).IsRequired().HasPrecision(18, 2);
-        builder.Property(u => u.TotalBalance).IsRequired().HasPrecision(18, 2);
-        builder.Property(u => u.Currency).IsRequired();
+        builder.Property(u => u.UserToken).IsRequired();
+        builder.Property(u => u.ProductId).IsRequired();
+        builder.Property(u => u.Status).IsRequired();
     }
 }

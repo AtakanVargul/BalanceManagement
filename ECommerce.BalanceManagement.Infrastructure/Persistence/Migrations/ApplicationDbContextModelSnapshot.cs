@@ -71,17 +71,14 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Migrations
                     b.ToTable("Balance", "ECommerce");
                 });
 
-            modelBuilder.Entity("ECommerce.BalanceManagement.Domain.Entities.PreOrder", b =>
+            modelBuilder.Entity("ECommerce.BalanceManagement.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("AvailableBalance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("BlockedBalance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("CreateDate")
                         .HasColumnType("datetimeoffset");
@@ -91,23 +88,22 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Currency")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("LastModifiedBy")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RecordStatus")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("TotalBalance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset?>("UpdateDate")
                         .HasColumnType("datetimeoffset");
@@ -117,7 +113,9 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PreOrder", "ECommerce");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Order", "ECommerce");
                 });
 
             modelBuilder.Entity("ECommerce.BalanceManagement.Domain.Entities.Product", b =>
@@ -167,6 +165,22 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Product", "ECommerce");
+                });
+
+            modelBuilder.Entity("ECommerce.BalanceManagement.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("ECommerce.BalanceManagement.Domain.Entities.Product", "Product")
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ECommerce.BalanceManagement.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

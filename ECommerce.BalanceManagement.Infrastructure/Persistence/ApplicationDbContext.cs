@@ -11,7 +11,7 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<Balance> Balance { get; set; }
-    public DbSet<PreOrder> PreOrder { get; set; }
+    public DbSet<Order> Order { get; set; }
     public DbSet<Product> Product { get; set; }
 
     private readonly ICurrentClientService _currentClientService;

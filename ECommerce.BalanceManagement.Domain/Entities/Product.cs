@@ -12,4 +12,5 @@ public class Product : AuditableEntity, ITrackChange
     public string Currency { get; set; }
     public string Category { get; set; }
     public int Stock { get; set; }
+    public virtual ICollection<Order> Orders { get; set; }
 }

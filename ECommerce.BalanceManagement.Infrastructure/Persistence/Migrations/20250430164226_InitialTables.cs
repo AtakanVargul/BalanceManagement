@@ -38,29 +38,6 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PreOrder",
-                schema: "ECommerce",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AvailableBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BlockedBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreateDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdateDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    RecordStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PreOrder", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Product",
                 schema: "ECommerce",
                 columns: table => new
@@ -82,6 +59,40 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_Product", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Order",
+                schema: "ECommerce",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreateDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdateDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    RecordStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalSchema: "ECommerce",
+                        principalTable: "Product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_ProductId",
+                schema: "ECommerce",
+                table: "Order",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -92,7 +103,7 @@ namespace ECommerce.BalanceManagement.Infrastructure.Persistence.Migrations
                 schema: "ECommerce");
 
             migrationBuilder.DropTable(
-                name: "PreOrder",
+                name: "Order",
                 schema: "ECommerce");
 
             migrationBuilder.DropTable(
